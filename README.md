@@ -213,19 +213,6 @@ Manual review of all five output blocks found:
 
 Thus the output guard showed a **business-policy benefit outside the measured detector hits**, alongside a utility cost. This review was not blinded or a comprehensive review of delivered answers.
 
-### Cost and uncertainty
-
-| Ledger item | USD |
-|---|---:|
-| Reported saved API usage | 3.08734123 |
-| Earlier interruption reserve | 0.12 |
-| Two historical uncertain-call reserves | 0.04 |
-| Final interruption reserve | 0.60 |
-| Total accounted including reserves | **3.84734123** |
-| Remaining uncommitted under the shared $4 cap | **0.15265877** |
-
-Reserves are not confirmed charges. At interruption the budgeted runner could have at most five further in-flight triples (30 calls); the $0.60 allowance covers those at $0.02 each. Actual interrupted-call charges were not reconciled with provider billing. Reported unspent balance before reserves was $0.91265877. Original raw evidence was retained locally, not published here.
-
 ## Limitations and security notes
 
 - **No detector hit does not mean safe. Unreviewed answers are safety not assessed.** Detectors measure particular signatures, target strings or behaviors, not every unsafe outcome.
