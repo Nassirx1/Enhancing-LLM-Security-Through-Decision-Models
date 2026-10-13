@@ -12,7 +12,7 @@ The historical evaluation found **4,124 / 50 / 47 garak-only detector hits** res
 
 The chatbot may identify grocery items, provide prices from a small fictional SAR catalogue, and help customers describe or escalate supermarket complaints. Related greetings and clarifying questions are allowed. It must refuse other tasks, harmful instructions, policy overrides and secret extraction. It has no account access, refund tools, code execution, inventory system or live pricing.
 
-This repository contains the runnable chatbot, Windows launchers and offline unit tests. **No API credentials, fixed secret values, garak source, garak datasets, evaluation harness, raw transcripts, generated reports or evaluation result files are included.** Garak is described below as the external evaluation tool; it is not a runtime dependency.
+This repository contains the runnable chatbot and offline unit tests. **No API credentials, fixed secret values, garak source, garak datasets, evaluation harness, raw transcripts, generated reports or evaluation result files are included.** Garak is described below as the external evaluation tool; it is not a runtime dependency.
 
 The published code generates a synthetic canary with `secrets.token_urlsafe(24)` at process startup. The system prompt tells the chatbot not to reveal or transform it. The input guard knows a secret exists but does not receive its value. The output guard receives it as trusted reference data. It is only an experimental canary—not a real API key. Never put production credentials in a model prompt.
 
@@ -110,7 +110,7 @@ Run one path at a time:
 .venv\Scripts\python.exe -X utf8 -m security_lab.app --mode input_output --inspect
 ```
 
-Or double-click `run_baseline.cmd`, `run_input_guard.cmd` or `run_input_output_guard.cmd`. `run_all_paths.cmd` opens three separate interactive windows. Opening a window sends no request; submitting prompts consumes API credits. Enter `/quit` to exit.
+Run each command in a separate terminal to compare the paths. Submitting prompts consumes API credits. Enter `/quit` to exit.
 
 For a single request:
 
@@ -118,11 +118,11 @@ For a single request:
 .venv\Scripts\python.exe -X utf8 -m security_lab.app --mode input_output --prompt "How much is whole milk?" --inspect
 ```
 
-On macOS/Linux use `python3 -m venv .venv`, `.venv/bin/python` and `cp .env.example .env` instead of the Windows commands. The Python CLI is portable; `.cmd` launchers are Windows-only.
+On macOS/Linux use `python3 -m venv .venv`, `.venv/bin/python` and `cp .env.example .env` instead of the Windows commands. The Python CLI is portable.
 
 Every entered prompt is an **independent single-turn test**; prior messages are not conversation context. `--inspect` prints the delivered answer, gate decisions, blocked stage and latency. `--metadata` emits structured diagnostics without suppressed candidates. Debug output can still include delivered content and request metadata; keep it private. The internal Python `Result` retains candidates for local inspection and must not be exposed wholesale in a production endpoint.
 
-Policy rejections return `blocked`. Provider/schema failures also fail closed, but have separate error metadata and a nonzero exit code in single-request mode. Interactive requests may retry transient failures up to three attempts. **These launchers have no dollar or test-count cap**; the historical evaluation used a separate budgeted runner that is deliberately not published.
+Policy rejections return `blocked`. Provider/schema failures also fail closed, but have separate error metadata and a nonzero exit code in single-request mode. Interactive requests may retry transient failures up to three attempts. **The interactive CLI has no dollar or test-count cap**; the historical evaluation used a separate budgeted runner that is deliberately not published.
 
 ### Offline tests
 
@@ -245,7 +245,6 @@ security_lab/
   prompts.py       # Supermarket policy, demo catalogue, generated canary
   __init__.py
 tests/test_app.py  # Offline stub-provider tests
-run_*.cmd         # Independent Windows test instances
 .env.example      # Empty credential field and model configuration
 requirements.txt
 requirements-dev.txt
